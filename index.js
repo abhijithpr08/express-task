@@ -11,7 +11,6 @@ app.post('/form', (req, res) => {
     res.send('Form data received')
 })
 
-
 // app.get("/",(req,res)=>{
 //     res.send("hello world")
 // })
@@ -91,6 +90,15 @@ app.get('/secure', auth, (req, res) => {
 app.post('/add', (req, res) => {
     const { a, b } = req.body
     res.json({ result: a + b })
+})
+
+app.use((req, res, next) => {
+    res.locals.user = 'Admin'
+    next()
+})
+
+app.get('/local', (req, res) => {
+    res.send(res.locals.user)
 })
 
 app.listen(PORT,()=>{

@@ -107,6 +107,10 @@ app.get('/local', (req, res) => {
     res.send(res.locals.user)
 })
 
+app.use((err, req, res, next) => {
+    res.status(500).json({ error: err.message })
+})
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

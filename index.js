@@ -38,6 +38,10 @@ app.get("/new",(req,res)=>{
     res.send("hello new page")
 })
 
+app.get("/header",(req,res)=>{
+    res.send(req.headers["user-agent"])
+})
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

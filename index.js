@@ -65,6 +65,18 @@ app.use((req,res,next)=>{
     next()
 })
 
+const auth = (req, res, next) => {
+    if (req.query.token === '123') {
+        next()
+    } else {
+        res.status(401).send('Unauthorized')
+    }
+}
+
+app.get('/secure', auth, (req, res) => {
+    res.send('Access Granted')
+})
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

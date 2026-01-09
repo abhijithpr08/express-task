@@ -20,6 +20,8 @@ app.get("/status",(req,res)=>{
 res.json({status:"ok"})
 })
 
+app.use(express.static("public"))
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

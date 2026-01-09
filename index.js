@@ -54,6 +54,12 @@ const step2 = (req,res)=>{
 
 app.get("/steps",step1, step2)
 
+app.post("/user", (req, res) => {
+    console.log(req.body)
+
+    res.send("Data received")
+});
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

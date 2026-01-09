@@ -11,8 +11,14 @@ app.post('/form', (req, res) => {
     res.send('Form data received')
 })
 
+app.use((req, res, next) => {
+    req.requestTime = Date.now()
+    next()
+})
+
 // app.get("/",(req,res)=>{
-//     res.send("hello world")
+//     // res.send("hello world")
+//     res.send(`Request arrived at: ${req.requestTime}`)
 // })
 
 app.get("/greet/:name",(req,res)=>{

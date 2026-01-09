@@ -1,0 +1,26 @@
+{
+  "name": "express-task",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhijithpr08/express-task.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/abhijithpr08/express-task/issues"
+  },
+  "homepage": "https://github.com/abhijithpr08/express-task#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

@@ -77,6 +77,11 @@ app.get('/secure', auth, (req, res) => {
     res.send('Access Granted')
 })
 
+app.post('/add', (req, res) => {
+    const { a, b } = req.body
+    res.json({ result: a + b })
+})
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

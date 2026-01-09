@@ -3,10 +3,22 @@ import userRoutes from "./routes/user.js"
 import mongoose from "mongoose";
 import { connectDB } from "./config/db.js";
 import User from "./models/User.js";
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import cors from 'cors'
+import { body, validationResult } from 'express-validator'
+import auth from './middleware/auth.js'
+
 
 const app = express();
 
 const PORT = 3000
+const JWT_SECRET = 'mysecretkey'
+
+// 33 CORS Setup
+app.use(cors({
+    origin: 'http://localhost:5173'
+}))
 
 // 11 json body from post req
 app.use(express.json())
@@ -58,7 +70,6 @@ app.delete('/users/:id', async (req, res) => {
     await User.findByIdAndDelete(req.params.id)
     res.send('User Deleted')
 })
-
 
 // 2 greet a user
 app.get("/greet/:name",(req,res)=>{
@@ -132,17 +143,17 @@ app.use((req,res,next)=>{
 })
 
 // 13 simple auth
-const auth = (req, res, next) => {
-    if (req.query.token === '123') {
-        next()
-    } else {
-        res.status(401).send('Unauthorized')
-    }
-}
+// const auth = (req, res, next) => {
+//     if (req.query.token === '123') {
+//         next()
+//     } else {
+//         res.status(401).send('Unauthorized')
+//     }
+// }
 
-app.get('/secure', auth, (req, res) => {
-    res.send('Access Granted')
-})
+// app.get('/secure', auth, (req, res) => {
+//     res.send('Access Granted')
+// })
 
 // 14 calculator
 app.post('/add', (req, res) => {
@@ -173,6 +184,62 @@ const books = [
 
 app.get('/books', (req, res) => {
     res.json(books)
+})
+
+// 27 Input Validation
+app.post(
+    '/register',
+    body('email').isEmail(),
+    body('password').isLength({ min: 6 }),
+    async (req, res) => {
+
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+           // 28 Password Hashing
+         const hashedPassword = await bcrypt.hash(req.body.password, 10)
+
+        const user = await User.create({
+            ...req.body,
+            password: hashedPassword
+        })
+
+        res.status(201).json(user)
+    }
+)
+
+   // 29 Login Logic
+app.post('/login', async (req, res) => {
+    const user = await User.findOne({ email: req.body.email })
+    if (!user) return res.send('Login Failed')
+
+    const isMatch = await bcrypt.compare(req.body.password, user.password)
+    if (!isMatch) return res.send('Login Failed')
+
+       // 30 JWT Sign
+    const token = jwt.sign(
+        { id: user._id },
+        JWT_SECRET,
+        { expiresIn: '1h' }
+    )
+
+    res.json({ message: 'Login Successful', token })
+})
+
+   // 31 Protected Route
+app.get('/profile', auth, (req, res) => {
+    res.send('Access Granted to Protected Route')
+})
+
+   // 34 Pagination
+app.get('/users', async (req, res) => {
+    const page = Number(req.query.page) || 1
+    const limit = 10
+    const skip = (page - 1) * limit
+
+    const users = await User.find().skip(skip).limit(limit)
+    res.json(users)
 })
 
 // 1 create server on port 3000

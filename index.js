@@ -6,8 +6,6 @@ import User from "./models/User.js";
 
 const app = express();
 
-// 21 db connection
-connectDB();
 const PORT = 3000
 
 // 11 json body from post req
@@ -44,6 +42,17 @@ app.get('/users/:id', async (req, res) => {
     const user = await User.findById(req.params.id)
     res.json(user)
 })
+
+// 25 update user 
+app.put('/users/:id', async (req, res) => {
+    const user = await User.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true }
+    )
+    res.json(user)
+})
+
 
 // 2 greet a user
 app.get("/greet/:name",(req,res)=>{
@@ -161,6 +170,9 @@ app.get('/books', (req, res) => {
 })
 
 // 1 create server on port 3000
-app.listen(PORT,()=>{
+// 21 db connection
+connectDB().then(()=>{
+    app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })
+});

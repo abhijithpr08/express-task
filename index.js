@@ -4,6 +4,14 @@ const PORT = 3000
 
 app.use(express.json())
 
+app.use(express.urlencoded({ extended: true }))
+
+app.post('/form', (req, res) => {
+    console.log(req.body)
+    res.send('Form data received')
+})
+
+
 // app.get("/",(req,res)=>{
 //     res.send("hello world")
 // })

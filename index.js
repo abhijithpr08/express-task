@@ -26,6 +26,10 @@ app.get("/notfound", (req,res)=>{
     res.status(404).send("404 error: page not found")
 })
 
+app.post("/msg",(req,res)=>{
+    res.send("message received")
+})
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

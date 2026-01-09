@@ -30,6 +30,14 @@ app.post("/msg",(req,res)=>{
     res.send("message received")
 })
 
+app.get("/old",(req,res)=>{
+    res.redirect("/new")
+})
+
+app.get("/new",(req,res)=>{
+    res.send("hello new page")
+})
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

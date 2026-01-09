@@ -16,6 +16,10 @@ app.get("/search", (req,res)=>{
     res.send(`Search for ${req.query.q}`)
 })
 
+app.get("/status",(req,res)=>{
+res.json({status:"ok"})
+})
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

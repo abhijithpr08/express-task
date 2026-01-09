@@ -1,5 +1,10 @@
-const express = require('express');
+import express from "express";
+import userRoutes from "./routes/user.js"
+import mongoose from "mongoose";
+import { connectDB } from "./config/db.js";
+
 const app = express();
+connectDB();
 const PORT = 3000
 
 app.use(express.json())
@@ -73,7 +78,6 @@ app.post("/user", (req, res) => {
     res.send("Data received")
 });
 
-const userRoutes = require('./routes/user')
 app.use('/user', userRoutes)
 
 app.use((req,res,next)=>{

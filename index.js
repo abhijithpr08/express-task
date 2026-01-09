@@ -12,6 +12,10 @@ app.get("/greet/:name",(req,res)=>{
     res.send(`hello ${req.params.name}`)
 })
 
+app.get("/search", (req,res)=>{
+    res.send(`Search for ${req.query.q}`)
+})
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

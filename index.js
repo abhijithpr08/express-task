@@ -111,6 +111,15 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: err.message })
 })
 
+const books = [
+    { id: 1, title: 'Node JS' },
+    { id: 2, title: 'Express JS' }
+]
+
+app.get('/books', (req, res) => {
+    res.json(books)
+})
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

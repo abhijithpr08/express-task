@@ -53,6 +53,12 @@ app.put('/users/:id', async (req, res) => {
     res.json(user)
 })
 
+// 26 delete user
+app.delete('/users/:id', async (req, res) => {
+    await User.findByIdAndDelete(req.params.id)
+    res.send('User Deleted')
+})
+
 
 // 2 greet a user
 app.get("/greet/:name",(req,res)=>{

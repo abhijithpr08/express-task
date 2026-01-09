@@ -2,6 +2,7 @@ import express from "express";
 import userRoutes from "./routes/user.js"
 import mongoose from "mongoose";
 import { connectDB } from "./config/db.js";
+import User from "./models/User.js";
 
 const app = express();
 connectDB();
@@ -25,6 +26,12 @@ app.use((req, res, next) => {
 //     // res.send("hello world")
 //     res.send(`Request arrived at: ${req.requestTime}`)
 // })
+
+app.post('/users', async (req, res) => {
+    const user = await User.create(req.body)
+    res.status(201).json(user)
+})
+
 
 app.get("/greet/:name",(req,res)=>{
     res.send(`hello ${req.params.name}`)

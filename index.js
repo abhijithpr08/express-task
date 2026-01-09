@@ -60,6 +60,11 @@ app.post("/user", (req, res) => {
     res.send("Data received")
 });
 
+app.use((req,res,next)=>{
+    console.log(req.method, req.url)
+    next()
+})
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

@@ -42,6 +42,18 @@ app.get("/header",(req,res)=>{
     res.send(req.headers["user-agent"])
 })
 
+const step1 = (req,res,next)=>{
+    console.log("step 1")
+    next()
+}
+
+const step2 = (req,res)=>{
+    console.log("step 2")
+    res.send("multiple handler executed")
+}
+
+app.get("/steps",step1, step2)
+
 app.listen(PORT,()=>{
     console.log(`server running at http://localhost:${PORT}`)
 })

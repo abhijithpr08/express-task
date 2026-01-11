@@ -1,9 +1,17 @@
-import { Router } from "express"
+import express from "express";
+import upload from "../middleware/multer.js";
 
-const userRoutes = Router()
+const router = express.Router();
 
-userRoutes.get("/", (req, res) => {
-    res.send("User Route Working")
-})
+router.post("/upload", upload.single("image"), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+    }
 
-export default userRoutes
+    res.status(201).json({
+        message: "File uploaded successfully",
+        file: req.file.filename
+    });
+});
+
+export default router;
